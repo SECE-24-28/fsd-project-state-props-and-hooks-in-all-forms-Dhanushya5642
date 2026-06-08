@@ -1,35 +1,44 @@
 import React, { useState } from "react";
 import loginBg from "../Assets/Css/Images/New_Login.jpeg";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import axios from "axios";
 
 function Login() {
-  const storedEmail = localStorage.getItem("email");
-  const storedPassword = localStorage.getItem("password");
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  console.log(storedEmail);
-  console.log(storedPassword);
+  const handleLogin = async () => {
+    if (!email || !password) {
+      alert("Please fill all the fields");
+      return;
+    }
 
-  
-    const handleLogin = () => {
-      if (!email || !password) {
-        alert("Please fill all the fields");
-        return;
-      }
+    try {
+      const API_URL = window.location.hostname === "localhost" 
+        ? "http://localhost:5000" 
+        : "https://bodega-backend-3.onrender.com";
 
-      if (email === storedEmail && password === storedPassword) {
-        localStorage.setItem("isLoggedIn", "true");
+      const res = await axios.post(`${API_URL}/api/user/login`, {
+        email,
+        password,
+      });
 
-        alert("Login Successful");
+      localStorage.setItem("isLoggedIn", "true");
+      localStorage.setItem("userName", res.data.user.name);
+      localStorage.setItem("email", res.data.user.email);
+      localStorage.setItem("phone", res.data.user.phone);
+      localStorage.setItem("token", res.data.token);
 
-        navigate("/");
-      } else {
-        alert("Invalid Email or Password");
-      }
-    };
-  
+      alert("Login Successful");
+      navigate("/");
+    } catch (error) {
+      alert(error.response?.data?.message || "Login Failed");
+    }
+  };
+
+
   return (
     <>
       <div
@@ -128,9 +137,9 @@ function Login() {
               <div className="text-center mt-3">
                 <p className="text-gray-500">
                   Don’t have an account?
-                  <a href="#" className="text-[#2f6d2f] font-semibold">
+                  <Link to="/signup" className="text-[#2f6d2f] font-semibold">
                     Sign Up
-                  </a>
+                  </Link>
                 </p>
               </div>
             </div>

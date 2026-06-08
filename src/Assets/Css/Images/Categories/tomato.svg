@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-label="Tomato">
+  <defs>
+    <radialGradient id="tomatoGlow" cx="50%" cy="30%" r="70%">
+      <stop offset="0%" stop-color="#ff8a55"/>
+      <stop offset="100%" stop-color="#d52f2f"/>
+    </radialGradient>
+  </defs>
+  <circle cx="100" cy="110" r="70" fill="url(#tomatoGlow)"/>
+  <path d="M70 60c6-24 34-34 55-28 16 5 28 20 28 36 0 16-12 30-28 36-21 6-49-4-55-28-2-6-3-14 0-18z" fill="#69a02a"/>
+  <path d="M77 53c6-3 14-8 22-7m23 2c6 1 14 5 18 10m-70 17c4-5 10-8 16-10" stroke="#5a8724" stroke-width="8" stroke-linecap="round" fill="none"/>
+  <path d="M80 62c-12 10-9 30 0 39 7 7 20 9 25 5 7-6 6-20 1-29-4-7-12-14-20-15-6-1-11 0-16 0z" fill="#ffb0a0" opacity="0.35"/>
+</svg>

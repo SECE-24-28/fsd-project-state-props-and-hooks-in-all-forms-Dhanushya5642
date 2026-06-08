@@ -1,18 +1,18 @@
-import logo from './logo.svg';
 import './App.css';
-import Homepage from './Components/Homepage';
-import AboutPage from './Components/AboutPage';
-import NavBar from './Components/NavBar';
-import {BrowserRouter} from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import AppRoutes from './Routers/AppRoutes';
+import { CartProvider } from './Components/Cart/CartContext';
+import { WishlistProvider } from './Components/Cart/WishlistContext';
 
 function App() {
   return (
-    <>
     <BrowserRouter>
-    <AppRoutes/>
+      <CartProvider>
+        <WishlistProvider>
+          <AppRoutes />
+        </WishlistProvider>
+      </CartProvider>
     </BrowserRouter>
-  </>
   );
 }
 
