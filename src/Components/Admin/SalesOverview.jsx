@@ -1,6 +1,7 @@
 import React from "react";
 
-function SalesOverview() {
+function SalesOverview({ activePage }) {
+  const highlighted = activePage === "categories";
   return (
     <div className="grid grid-cols-3 gap-5 mt-6">
 
@@ -122,9 +123,13 @@ function SalesOverview() {
 
       {/* TOP CATEGORIES */}
 
-      <div className="bg-white rounded-3xl shadow-sm hover:shadow-md transition-all border border-gray-100 p-5">
+      <div className={`bg-white rounded-3xl border transition-all duration-500 p-5 ${
+        highlighted
+          ? "border-green-400 shadow-[0_0_30px_6px_rgba(34,197,94,0.25)] scale-[1.02]"
+          : "border-gray-100 shadow-sm hover:shadow-md"
+      }`}>
 
-        <h3 className="font-semibold">
+        <h3 className={`font-semibold ${highlighted ? "text-green-700" : ""}`}>
           Top Categories
         </h3>
 
@@ -134,40 +139,11 @@ function SalesOverview() {
 
         <div className="space-y-5 mt-6">
 
-          <Category
-            icon="bi-flower1"
-            color="green"
-            title="Vegetables"
-            amount="₹86,540"
-          />
-
-          <Category
-            icon="bi-apple"
-            color="orange"
-            title="Fruits"
-            amount="₹72,320"
-          />
-
-          <Category
-            icon="bi-droplet-fill"
-            color="blue"
-            title="Dairy"
-            amount="₹51,440"
-          />
-
-          <Category
-            icon="bi-cup-hot"
-            color="purple"
-            title="Beverages"
-            amount="₹32,100"
-          />
-
-          <Category
-            icon="bi-box-seam"
-            color="red"
-            title="Snacks"
-            amount="₹18,240"
-          />
+          <Category icon="bi-flower1"    color="green"  title="Vegetables" amount="₹86,540" highlighted={highlighted} />
+          <Category icon="bi-apple"      color="orange" title="Fruits"     amount="₹72,320" highlighted={highlighted} />
+          <Category icon="bi-droplet-fill" color="blue" title="Dairy"     amount="₹51,440" highlighted={highlighted} />
+          <Category icon="bi-cup-hot"    color="purple" title="Beverages" amount="₹32,100" highlighted={highlighted} />
+          <Category icon="bi-box-seam"   color="red"   title="Snacks"     amount="₹18,240" highlighted={highlighted} />
 
         </div>
 
@@ -177,36 +153,26 @@ function SalesOverview() {
   );
 }
 
-function Category({ icon, color, title, amount }) {
+function Category({ icon, color, title, amount, highlighted }) {
   const colors = {
-    green: "bg-green-100 text-green-600",
+    green:  "bg-green-100 text-green-600",
     orange: "bg-orange-100 text-orange-500",
-    blue: "bg-blue-100 text-blue-500",
+    blue:   "bg-blue-100 text-blue-500",
     purple: "bg-purple-100 text-purple-500",
-    red: "bg-red-100 text-red-500",
+    red:    "bg-red-100 text-red-500",
   };
 
   return (
-    <div className="flex justify-between items-center">
-
+    <div className={`flex justify-between items-center px-2 py-1.5 rounded-xl transition-all duration-300 ${
+      highlighted ? "bg-green-50 shadow-sm shadow-green-200" : ""
+    }`}>
       <div className="flex items-center gap-3">
-
-        <div
-          className={`w-8 h-8 rounded-full flex items-center justify-center ${colors[color]}`}
-        >
+        <div className={`w-8 h-8 rounded-full flex items-center justify-center ${colors[color]}`}>
           <i className={`bi ${icon}`}></i>
         </div>
-
-        <span className="text-sm font-medium">
-          {title}
-        </span>
-
+        <span className={`text-sm font-medium ${highlighted ? "text-green-800" : ""}`}>{title}</span>
       </div>
-
-      <span className="font-semibold">
-        {amount}
-      </span>
-
+      <span className={`font-semibold ${highlighted ? "text-green-700" : ""}`}>{amount}</span>
     </div>
   );
 }

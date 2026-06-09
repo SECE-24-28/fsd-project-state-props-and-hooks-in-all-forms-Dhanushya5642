@@ -13,35 +13,13 @@ function App() {
   const [showSplash, setShowSplash] = useState(
     () => !sessionStorage.getItem("splashSeen")
   );
-
-  const isLoggedIn = !!localStorage.getItem("isLoggedIn");
-  const userEmail  = localStorage.getItem("email") || "";
-  const userAddress = localStorage.getItem(`deliveryAddress_${userEmail}`) || "";
-
-  const [showAddressModal, setShowAddressModal] = useState(
-    () => !sessionStorage.getItem("splashSeen") ? false : (isLoggedIn && !userAddress)
-  );
   const [heroReady, setHeroReady] = useState(
-    () => !!sessionStorage.getItem("splashSeen") && !!sessionStorage.getItem("addressDone")
+    () => !!sessionStorage.getItem("splashSeen")
   );
 
   const handleSplashDone = () => {
     sessionStorage.setItem("splashSeen", "1");
     setShowSplash(false);
-    const email   = localStorage.getItem("email") || "";
-    const loggedIn = !!localStorage.getItem("isLoggedIn");
-    const addr    = localStorage.getItem(`deliveryAddress_${email}`);
-    if (loggedIn && !addr) {
-      setShowAddressModal(true);
-    } else {
-      sessionStorage.setItem("addressDone", "1");
-      setHeroReady(true);
-    }
-  };
-
-  const handleAddressSave = () => {
-    sessionStorage.setItem("addressDone", "1");
-    setShowAddressModal(false);
     setHeroReady(true);
   };
 
@@ -51,7 +29,6 @@ function App() {
         <WishlistProvider>
           <HeroReadyContext.Provider value={heroReady}>
             {showSplash && <SplashScreen onDone={handleSplashDone} />}
-            {!showSplash && showAddressModal && <AddressModal onSave={handleAddressSave} />}
             <AppRoutes />
           </HeroReadyContext.Provider>
         </WishlistProvider>

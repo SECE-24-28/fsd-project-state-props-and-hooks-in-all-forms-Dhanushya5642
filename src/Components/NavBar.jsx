@@ -10,6 +10,7 @@ function NavBar() {
   const [isLoggedIn, setIsLoggedIn]       = useState(false);
   const [userName, setUserName]           = useState("");
   const [showDropdown, setShowDropdown]   = useState(false);
+  const [userRole, setUserRole]           = useState("");
   const [deliveryAddress, setDeliveryAddress] = useState(() => {
     const email = localStorage.getItem("email") || "";
     return email ? localStorage.getItem(`deliveryAddress_${email}`) || "" : "";
@@ -19,24 +20,23 @@ function NavBar() {
   const { totalWishlist } = useWishlist();
   const navigate = useNavigate();
   useEffect(() => {
-
-  const loginStatus = localStorage.getItem("isLoggedIn");
-
-  if (loginStatus === "true") {
-
-    setIsLoggedIn(true);
-
-    setUserName(localStorage.getItem("userName"));
-
-  }
-
-}, []);
+    const loginStatus = localStorage.getItem("isLoggedIn");
+    if (loginStatus === "true") {
+      setIsLoggedIn(true);
+      setUserName(localStorage.getItem("userName"));
+      setUserRole(localStorage.getItem("role") || "user");
+      const email = localStorage.getItem("email") || "";
+      const addr  = localStorage.getItem(`deliveryAddress_${email}`);
+      if (!addr) setShowAddressModal(true);
+    }
+  }, []);
 const handleLogout = () => {
   localStorage.removeItem("isLoggedIn");
   localStorage.removeItem("userName");
   localStorage.removeItem("email");
   localStorage.removeItem("phone");
-
+  localStorage.removeItem("token");
+  localStorage.removeItem("role");
   window.location.href = "/";
 };
   return (
@@ -219,38 +219,29 @@ const handleLogout = () => {
 
   {showDropdown && (
     <div className="absolute right-0 mt-3 w-48 bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden z-50">
-      
-      <button
-        className="w-full text-left px-4 py-3 hover:bg-gray-50 flex items-center gap-2"
-      >
-        <i className="ri-user-line"></i>
-        My Profile
+      {userRole === "admin" && (
+        <Link to="/admin" onClick={() => setShowDropdown(false)} className="w-full text-left px-4 py-3 hover:bg-gray-50 flex items-center gap-2 text-green-700 font-semibold border-b border-gray-100">
+          <i className="ri-shield-user-line"></i> Admin Panel
+        </Link>
+      )}
+      <Link to="/profile" onClick={() => setShowDropdown(false)} className="w-full text-left px-4 py-3 hover:bg-gray-50 flex items-center gap-2">
+        <i className="ri-user-line"></i> My Profile
+      </Link>
+      <Link to="/orders" onClick={() => setShowDropdown(false)} className="w-full text-left px-4 py-3 hover:bg-gray-50 flex items-center gap-2">
+        <i className="ri-shopping-bag-line"></i> My Orders
+      </Link>
+      <button onClick={handleLogout} className="w-full text-left px-4 py-3 text-red-600 hover:bg-red-50 flex items-center gap-2">
+        <i className="ri-logout-box-r-line"></i> Logout
       </button>
-
-      <button
-        className="w-full text-left px-4 py-3 hover:bg-gray-50 flex items-center gap-2"
-      >
-        <i className="ri-shopping-bag-line"></i>
-        My Orders
-      </button>
-
-      <button
-        onClick={handleLogout}
-        className="w-full text-left px-4 py-3 text-red-600 hover:bg-red-50 flex items-center gap-2"
-      >
-        <i className="ri-logout-box-r-line"></i>
-        Logout
-      </button>
-
     </div>
   )}
 </div>
               ) : (
                 <Link
-  to="/signup"
+  to="/login"
   className="px-4 py-2 bg-green-700 text-white rounded-lg hover:bg-green-800"
 >
-  Sign Up
+  Login
 </Link>
               )}
             </div>

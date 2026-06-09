@@ -9,6 +9,8 @@ import MainLayout from "../Layouts/MainLayout";
 import AdminPanel from "../Components/AdminPanel";
 import Cart from "../Components/Cart/Cart";
 import Wishlist from "../Components/Wishlist";
+import MyProfile from "../Components/MyProfile";
+import MyOrders from "../Components/MyOrders";
 
 function AppRoutes() {
   return (
@@ -20,6 +22,8 @@ function AppRoutes() {
           <Route path="/products" element={<Products />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/wishlist" element={<Wishlist />} />
+          <Route path="/profile" element={<MyProfile />} />
+          <Route path="/orders" element={<MyOrders />} />
         </Route>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />

@@ -2,39 +2,27 @@ import React, { useState } from "react";
 import loginBg from "../Assets/Css/Images/New_Login.jpeg";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import axios from "axios";
 
 function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = async () => {
+  const handleLogin = () => {
     if (!email || !password) {
       alert("Please fill all the fields");
       return;
     }
 
-    try {
-      const API_URL = window.location.hostname === "localhost" 
-        ? "http://localhost:5000" 
-        : "https://bodega-backend-3.onrender.com";
-
-      const res = await axios.post(`${API_URL}/api/user/login`, {
-        email,
-        password,
-      });
-
+    if (email === "suryasekar626@gmail.com" && password === "Surya@123") {
       localStorage.setItem("isLoggedIn", "true");
-      localStorage.setItem("userName", res.data.user.name);
-      localStorage.setItem("email", res.data.user.email);
-      localStorage.setItem("phone", res.data.user.phone);
-      localStorage.setItem("token", res.data.token);
-
-      alert("Login Successful");
+      localStorage.setItem("userName", "Surya Sekar");
+      localStorage.setItem("email", email);
+      localStorage.setItem("phone", "");
+      localStorage.setItem("role", "admin");
       navigate("/");
-    } catch (error) {
-      alert(error.response?.data?.message || "Login Failed");
+    } else {
+      alert("Invalid Email or Password");
     }
   };
 

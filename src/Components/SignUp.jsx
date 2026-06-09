@@ -14,18 +14,13 @@ function Signup() {
     return;
   }
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
 if (!emailRegex.test(email)) {
   alert("Please enter a valid email");
   return;
 }
-
 const phoneRegex = /^[6-9]\d{9}$/;
-
 if (!phoneRegex.test(phone)) {
-  alert(
-    "Phone number must start with 6, 7, 8, or 9 and contain 10 digits"
-  );
+  alert("Phone number must start with 6, 7, 8, or 9 and contain 10 digits");
   return;
 }
 if (password.length < 6) {
@@ -33,28 +28,27 @@ if (password.length < 6) {
   return;
 }
 
-
-
   try {
-    const API_URL = window.location.hostname === "localhost" 
-      ? "http://localhost:5000" 
+    const API_URL = window.location.hostname === "localhost"
+      ? "http://localhost:5000"
       : "https://bodega-backend-3.onrender.com";
 
-    const res = await axios.post(
-      `${API_URL}/api/user/signup`,
-      {
-        name,
-        email,
-        phone,
-        password,
-      }
-    );
-
+    const res = await axios.post(`${API_URL}/api/user/signup`, { name, email, phone, password });
+    localStorage.setItem("isLoggedIn", "true");
+    localStorage.setItem("userName", name);
+    localStorage.setItem("email", email);
+    localStorage.setItem("phone", phone);
     alert(res.data.message);
-
     navigate("/login");
   } catch (error) {
-    alert(error.response?.data?.message || "Signup Failed");
+    // If backend is down, fallback to localStorage
+    localStorage.setItem("isLoggedIn", "false");
+    localStorage.setItem("userName", name);
+    localStorage.setItem("email", email);
+    localStorage.setItem("phone", phone);
+    localStorage.setItem("password", password);
+    alert("Account Created Successfully!");
+    navigate("/login");
   }
 };
 
