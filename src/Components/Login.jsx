@@ -16,9 +16,7 @@ function Login() {
     }
 
     try {
-      const API_URL = window.location.hostname === "localhost"
-        ? "http://localhost:5000"
-        : "https://bodega-backend-3.onrender.com";
+      const API_URL = "https://fsd-project-1-backend-completion-9i8p.onrender.com";
 
       const res = await axios.post(`${API_URL}/api/user/login`, { email, password });
       localStorage.setItem("isLoggedIn", "true");

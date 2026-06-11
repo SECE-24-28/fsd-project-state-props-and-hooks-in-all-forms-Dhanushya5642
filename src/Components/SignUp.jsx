@@ -13,23 +13,46 @@ function Signup() {
   const navigate = useNavigate();
 
   const handleSignup = async () => {
-    if (!name || !email || !phone || !password) { alert("Please fill all the fields"); return; }
+    if (!name || !email || !phone || !password) {
+      alert("Please fill all the fields");
+      return;
+    }
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) { alert("Please enter a valid email"); return; }
+    if (!emailRegex.test(email)) {
+      alert("Please enter a valid email");
+      return;
+    }
     const phoneRegex = /^[6-9]\d{9}$/;
-    if (!phoneRegex.test(phone)) { alert("Phone number must start with 6, 7, 8, or 9 and contain 10 digits"); return; }
-    if (password.length < 6) { alert("Password must be at least 6 characters"); return; }
+    if (!phoneRegex.test(phone)) {
+      alert("Phone number must start with 6, 7, 8, or 9 and contain 10 digits");
+      return;
+    }
+    if (password.length < 6) {
+      alert("Password must be at least 6 characters");
+      return;
+    }
     try {
-       const API_URL = window.location.hostname === "localhost" ? "http://localhost:5000" : "https://fsd-project-1-backend-completion-341k.onrender.com";
-      //const API_URL = "https://bodega-backend-3.onrender.com";
-      const res = await axios.post(`${API_URL}/api/user/signup`, { name, email, phone, password });
+      // const API_URL =
+      //   window.location.hostname === "localhost"
+      //     ? "http://localhost:5000"
+      //     : "https://fsd-project-1-backend-completion-9i8p.onrender.com";
+      const API_URL = "https://fsd-project-1-backend-completion-9i8p.onrender.com";
+      const res = await axios.post(`${API_URL}/api/user/signup`, {
+        name,
+        email,
+        phone,
+        password,
+      });
       localStorage.setItem("userName", name);
       localStorage.setItem("email", email);
       localStorage.setItem("phone", phone);
       alert(res.data.message);
       navigate("/login");
     } catch (error) {
-      alert(error.response?.data?.message || "Something went wrong. Please try again.");
+      alert(
+        error.response?.data?.message ||
+          "Something went wrong. Please try again.",
+      );
     }
   };
 
@@ -44,17 +67,22 @@ function Signup() {
       className="flex justify-end items-center min-h-screen pr-32"
     >
       <div className="bg-white rounded-xl w-[520px] min-h-[620px] p-8 text-center">
-
         {/* Logo */}
         <div className="m-2">
           <h1 className="font-[1000] text-5xl text-green-900">BODEGA</h1>
-          <h4 className="text-md text-red-800">A Place to feel fresh Groceries</h4>
+          <h4 className="text-md text-red-800">
+            A Place to feel fresh Groceries
+          </h4>
         </div>
 
         <div className="w-full">
           <div className="pl-2">
-            <h4 className="text-[24px] text-[#165a0d] font-bold">Create your account</h4>
-            <p className="text-gray-500 text-[14px]">Enter your details to create your account</p>
+            <h4 className="text-[24px] text-[#165a0d] font-bold">
+              Create your account
+            </h4>
+            <p className="text-gray-500 text-[14px]">
+              Enter your details to create your account
+            </p>
           </div>
 
           <div className="mt-6">
@@ -105,8 +133,14 @@ function Signup() {
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full outline-none text-gray-600"
               />
-              <button type="button" onClick={() => setShowPassword(!showPassword)} className="text-gray-400 hover:text-gray-600 transition">
-                <i className={`ri-${showPassword ? "eye-off" : "eye"}-line text-xl`}></i>
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="text-gray-400 hover:text-gray-600 transition"
+              >
+                <i
+                  className={`ri-${showPassword ? "eye-off" : "eye"}-line text-xl`}
+                ></i>
               </button>
             </div>
           </div>
@@ -130,15 +164,22 @@ function Signup() {
 
             <div className="flex gap-4">
               <button className="flex-1 border border-gray-200 rounded-2xl py-4 flex items-center justify-center gap-3 hover:bg-gray-50 transition">
-                <img src="https://cdn-icons-png.flaticon.com/512/300/300221.png" className="w-5 h-5" />
-                <span className="font-small text-gray-700">Continue with Google</span>
+                <img
+                  src="https://cdn-icons-png.flaticon.com/512/300/300221.png"
+                  className="w-5 h-5"
+                />
+                <span className="font-small text-gray-700">
+                  Continue with Google
+                </span>
               </button>
             </div>
 
             <div className="text-center mt-3">
               <p className="text-gray-500">
                 Already have an account?{" "}
-                <Link to="/login" className="text-[#2f6d2f] font-semibold">Login</Link>
+                <Link to="/login" className="text-[#2f6d2f] font-semibold">
+                  Login
+                </Link>
               </p>
             </div>
           </div>
